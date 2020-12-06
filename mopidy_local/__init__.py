@@ -33,6 +33,7 @@ class Extension(ext.Extension):
         schema["timeout"] = config.Integer(optional=True, minimum=1)
         schema["use_artist_sortname"] = config.Boolean()
         schema["album_art_files"] = config.List(optional=True)
+        schema["db_collation"] = config.String(optional=True)
         return schema
 
     def setup(self, registry):

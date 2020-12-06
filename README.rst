@@ -119,6 +119,10 @@ The following configuration values are available:
   for external album art. These may contain UNIX shell patterns,
   i.e. ``*``, ``?``, etc.
 
+- ``local/db_collation``: Name of collation to use when searching for
+  artists or directories. Default to ``NOCASE``. The database sqlite3
+  supports ``BINARY``, ``NOCASE``, and ``RTRIM`` natively and language
+  collations when ICU extension is available.
 
 Usage
 =====
