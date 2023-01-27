@@ -148,6 +148,7 @@ class LocalLibraryProvider(backend.LibraryProvider):
         query = dict(uritools.urisplit(uri).getquerylist())
         type = query.pop("type", None)
         role = query.pop("role", None)
+        output = query.pop("output", None)
 
         # TODO: handle these in schema (generically)?
         if type == "date":
@@ -168,7 +169,11 @@ class LocalLibraryProvider(backend.LibraryProvider):
         for ref in schema.browse(
             self._connect(), type, order, role=roles, **query
         ):  # noqa
-            if ref.type == Ref.TRACK or (not query and not role):
+            if (
+                ref.type == Ref.TRACK
+                or (not query and not role)
+                or (output in (Ref.ALBUM, Ref.ARTIST, Ref.TRACK) and ref.type == output)
+            ):
                 refs.append(ref)
             elif ref.type == Ref.ALBUM:
                 refs.append(
