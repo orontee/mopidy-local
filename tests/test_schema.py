@@ -129,10 +129,9 @@ class SchemaTest(unittest.TestCase):
             result = schema.lookup(c, Ref.ARTIST, self.artists[1].uri)
             assert [self.tracks[4]] == list(result)
 
-    @unittest.SkipTest  # TODO: check indexed search
-    def test_indexed_search(self):
+    def test_indexed_and_fulltext_search(self):
         for results, query, filters in [
-            (map(lambda t: t.uri, self.tracks), [], []),
+            ([t.uri for t in self.tracks], [], []),
             ([], [("any", "none")], []),
             (
                 [self.tracks[1].uri, self.tracks[3].uri, self.tracks[4].uri],
@@ -159,7 +158,7 @@ class SchemaTest(unittest.TestCase):
             for exact in (True, False):
                 with self.connection as c:
                     tracks = schema.search_tracks(c, query, 10, 0, exact, filters)
-                self.assertCountEqual(results, map(lambda t: t.uri, tracks))
+                self.assertCountEqual(results, [t.uri for t in tracks])
 
     def test_fulltext_search(self):
         for results, query, filters in [
